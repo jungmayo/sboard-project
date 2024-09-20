@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.sboard'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 
 java {
     toolchain {
@@ -38,7 +38,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.3.3'
-    implementation 'mysql:mysql-connector-java:8.0.32'
+
     // 기타 의존성
     implementation 'com.google.code.gson:gson:2.10.1'
 
