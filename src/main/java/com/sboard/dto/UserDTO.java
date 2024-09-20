@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 public class UserDTO {
     private String uid;
     private String pass;
-    private String pass2;
     private String name;
     private String nick;
     private String email;
@@ -33,7 +32,6 @@ public class UserDTO {
         return User.builder()
                 .uid(uid)
                 .pass(pass)
-                .pass(pass2)
                 .name(name)
                 .nick(nick)
                 .hp(hp)

@@ -122,7 +122,7 @@
 
             }
             registerForm.pass2.addEventListener('focusout', function(){
-                const pass1 = registerForm.pass1.value;
+                const pass1 = registerForm.pass.value;
                 const pass2 = registerForm.pass2.value;
 
                 if(!pass1.match(rePass)){
@@ -165,9 +165,9 @@
                     .then(resp => resp.json())
                     .then(data => {
                         console.log(data);
-                        if(data.result > 0 ){
+                        if(data > 0 ){
                             resultNick.innerText = '이미 사용중인 닉네임입니다';
-                            resultNick.style.color = 'green';
+                            resultNick.style.color = 'red';
                             isNickOk = false;
                         }else {
                             resultNick.innerText = '사용 가능한 닉네임입니다'
@@ -198,7 +198,7 @@
                     .then(resp => resp.json())
                     .then(data => {
                         console.log(data);
-                        if (data.result > 0) {
+                        if (data > 0) {
                             resultEmail.innerText = '이미 존재하는 이메일입니다';
                             resultEmail.style.color = 'red';
                         } else {
@@ -238,15 +238,14 @@
             };
             registerForm.hp.addEventListener('focusout', function (){
                 const hp = registerForm.hp.value;
-                fetch('sboard/user/checkUser?type=hp&value='+hp)
+                fetch('/sboard/user/checkUser?type=hp&value='+hp)
                     .then(resp => resp.json())
                     .then(data => {
                         console.log(data);
-                        if(data.result > 0){
+                        if(data > 0){
                             resultHp.innerText = '이미 존재하는 휴대폰 번호 입니다';
                             resultHp.style.color = 'red';
                             isHpOk = false;
-
 
                         }else {
                             resultHp.innerText = '사용 가능한 휴대폰 번호 입니다';
@@ -347,7 +346,7 @@
                         </tr>
                         <tr>
                             <td>비밀번호</td>
-                            <td><input type="password" name="pass1" placeholder="비밀번호 입력"/>
+                            <td><input type="password" name="pass" placeholder="비밀번호 입력"/>
                         </tr>
                         <tr>
                             <td>비밀번호 확인</td>

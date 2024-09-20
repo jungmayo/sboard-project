@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,8 +25,12 @@ public class UserService {
 
     @Autowired
     private final JavaMailSender mailSender;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void insertUser(UserDTO userDTO){
+        String encoded = passwordEncoder.encode(userDTO.getPass());
+        userDTO.setPass(encoded);
          User user = userDTO.toEntity();
          userRepository.save(user);
 
