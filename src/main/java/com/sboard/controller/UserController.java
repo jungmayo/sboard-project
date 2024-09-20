@@ -23,8 +23,7 @@ public class UserController {
     private final TermsService termsService;
 
     @GetMapping("/user/login")
-    public String login(Model model ,UserDTO userDTO) {
-
+    public String login(Model model) {
         model.addAttribute(appInfo);
         return "/user/login";
     }
