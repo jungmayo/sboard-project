@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>index</title>
+
+</head>
+<body>
+  <h3>ch08.Spring Security</h3>
+
+  <h4>인증 테스트</h4>
+  <th:block sec:authorize="isAnonymous()">
+    <a th:href="@{/user/login}">user 로그인</a><br>
+    <a th:href="@{/user/terms}">user 회원가입</a>
+  </th:block>
+
+
+  <th:block sec:authorize="isAuthenticated()">
+    <p>
+      [[${#authentication.principal.user.name}]]<br>
+      [[${#authentication.principal.user.role}]]<br>
+    </p>
+    <a th:href="@{/user/logout}">user 로그아웃</a>
+  </th:block>
+
+
+  <h4>인가 테스트</h4>
+  <a th:href="@{/admin}">admin</a><br>
+  <a th:href="@{/manager}">manager</a><br>
+  <a th:href="@{/staff}">staff</a>
+
+</body>
+</html>

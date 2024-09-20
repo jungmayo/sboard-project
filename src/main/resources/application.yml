@@ -1,0 +1,58 @@
+
+logging:
+    file:
+        name: /logs/sboard.log
+    level:
+        jdbc:
+            resultsettable: debug
+            sqlonly: debug
+            sqltiming: debug
+        org:
+            hibernate:
+                orm:
+                    jdbc:
+                        bind: trace
+                sql: debug
+        root: info
+server:
+    port: 8080
+    servlet:
+        context-path: /sboard
+spring:
+    application:
+        name: sboard
+        version: 0.0.1
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: "Aa13665946!"
+        url: jdbc:mysql://localhost:3306/jboard
+        username: jboard
+    devtools:
+        livereload:
+            enabled: true
+    jpa:
+        database: mysql
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+
+    thymeleaf:
+        prefix: classpath:/templates
+
+
+#        spring:
+#            mail:
+#                host: smtp.gmail.com
+#                port: 587
+#                username: wlgus5946@gmail.com
+#                password: dqys begj jhxb ffhs
+#                properties:
+#                    mail.smtp.auth: true
+#                    mail.smtp.ssl.enable: true
+#                    mail.smtp.ssl.trust: smtp.gmail.com
+#                    mail.smtp.starttls.enable: true
