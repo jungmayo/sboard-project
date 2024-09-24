@@ -41,16 +41,22 @@ public class ArticleService {
         return null;
     }
 
+
+
+
     public PageResponseDTO selectArticleAll(PageRequestDTO pageRequestDTO) {
 
         Pageable pageable = pageRequestDTO.getPageable("no");
 
-
+        Page<Tuple> pageArticle = null;
         // 엔티티 조회
         //List<Article> articles = articleRepository.findAll();
-
-        Page<Tuple> pageArticle = articleRepository.selectArticleAllForList(pageRequestDTO, pageable);
-
+        if(pageRequestDTO.getKeyword() == null) {
+            // 일반 글 목록 조회
+            pageArticle = articleRepository.selectArticleAllForList(pageRequestDTO, pageable);
+        }else {
+            pageArticle = articleRepository.selectArticleForSearch(pageRequestDTO, pageable);
+        }
         // 엔티티 리스트들 DTO 리스트 변환
         List<ArticleDTO> articleList = pageArticle.getContent().stream().map(tuple -> {
             Article article = tuple.get(0, Article.class);
@@ -62,7 +68,7 @@ public class ArticleService {
 
         }).toList();
 
-        int total = (int) pageArticle.getTotalElements();
+        int total = (int) pageArticle.getTotalElements(); // 튜플이 몇개있는지 (10개) 한페이지에 보여지는 글 갯수
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)

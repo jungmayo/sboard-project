@@ -9,4 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface ArticleRepositoryCustom {
 
     public Page<Tuple> selectArticleAllForList(PageRequestDTO pagerequestDTO, Pageable pageable);
+    public Page<Tuple> selectArticleForSearch(PageRequestDTO pagerequestDTO, Pageable pageable);
 }

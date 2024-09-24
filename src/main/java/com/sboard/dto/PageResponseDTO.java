@@ -13,6 +13,8 @@ import java.util.List;
 public class PageResponseDTO {
 
     private List<ArticleDTO> dtoList;
+
+
     private String cate;
     private int pg;
     private int size;
@@ -21,6 +23,11 @@ public class PageResponseDTO {
     private int start, end;
     private boolean prev, next;
 
+
+
+    private String type;
+    private String keyword;
+
     @Builder
     public PageResponseDTO(PageRequestDTO pageRequestDTO, List<ArticleDTO> dtoList, int total){
         this.cate = pageRequestDTO.getCate();
@@ -28,6 +35,8 @@ public class PageResponseDTO {
         this.size = pageRequestDTO.getSize();
         this.total = total;
         this.dtoList = dtoList;
+        this.type = pageRequestDTO.getType();
+        this.keyword = pageRequestDTO.getKeyword();
 
         this.startNo = total - ((pg - 1) * size); //글 번호
         this.end = (int) (Math.ceil(this.pg / 10.0)) * 10;
