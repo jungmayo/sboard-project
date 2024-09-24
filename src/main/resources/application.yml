@@ -24,7 +24,7 @@ spring:
         version: 0.0.5
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: 1234
+        password: "Aa13665946!"
         url: jdbc:mysql://15.164.166.75:3306/jboard
         username: root
     devtools:
