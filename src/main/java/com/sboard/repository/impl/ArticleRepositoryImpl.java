@@ -27,17 +27,17 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     private QUser quser = QUser.user;
 
     @Override
-    public Page<Tuple> selectArticleAllForList(PageRequestDTO pagerequestDTO, Pageable pageable) {
+    public Page<Tuple> selectArticleAllForList(PageRequestDTO pagerequestDTO, Pageable pageable) { //일반 글 목록 조회
 
         List<Tuple> content = queryFactory
                                         .select(qarticle, quser.nick) // 선별, 큐 아티클의 모든 속성 + 큐 유저의 닉
                                         .from(qarticle)
                                         .join(quser)
                                         .on(qarticle.writer.eq(quser.uid))
-                                        .offset(pageable.getOffset())
-                                        .limit(pageable.getPageSize())
-                                        .orderBy(qarticle.no.desc())
-                                        .fetch();
+                                        .offset(pageable.getOffset()) //해당 페이지의 첫번째 번호
+                                        .limit(pageable.getPageSize()) //부터 10개까지(size 만큼까지)
+                                        .orderBy(qarticle.no.desc()) // 내림차순으로 정렬
+                                        .fetch(); // 1개의 리스트(10개의튜플)이 담겨진 content값
 
 
         long total = queryFactory
@@ -45,13 +45,13 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .from(qarticle)
                 .fetchOne(); // 전체 데이터 개수
 
-        //페이징 처리를 위해 page 객체 리턴
+        //페이징 처리를 위해 page 객체 리턴 , 페이지 형태로 데이터를 반환 , 1. 한페이지에 보여지는 리스트,모든 데이터,pg-1,size,no내림차순
         return new PageImpl<Tuple>(content, pageable, total); //pageable : 요청한 페이지의 정보 ( 개수, 크기, 번호 정렬 방식을 위해 필요)
 
     }
 
     @Override
-    public Page<Tuple> selectArticleForSearch(PageRequestDTO pagerequestDTO, Pageable pageable) {
+    public Page<Tuple> selectArticleForSearch(PageRequestDTO pagerequestDTO, Pageable pageable) { // 검색 글 목록 조회
 
         String type = pagerequestDTO.getType();
         String keyword = pagerequestDTO.getKeyword();

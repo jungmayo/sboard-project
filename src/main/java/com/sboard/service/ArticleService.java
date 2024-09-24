@@ -46,7 +46,7 @@ public class ArticleService {
 
     public PageResponseDTO selectArticleAll(PageRequestDTO pageRequestDTO) {
 
-        Pageable pageable = pageRequestDTO.getPageable("no");
+        Pageable pageable = pageRequestDTO.getPageable("no"); //pg-1 , size , no의 내림차순 정렬
 
         Page<Tuple> pageArticle = null;
         // 엔티티 조회
@@ -57,9 +57,9 @@ public class ArticleService {
         }else {
             pageArticle = articleRepository.selectArticleForSearch(pageRequestDTO, pageable);
         }
-        // 엔티티 리스트들 DTO 리스트 변환
+        // 튜플 리스트 -> DTO 리스트 변환 // 1개의 리스트에 10개의 튜플이 있고, 튜플안에 여러개의 키밸류가있음(no=1,title=머시기)-> 이 값은 article이고 뒤의 따로 정의한 Nick은 String으로 , 따라서 0은 article, 1은 nick이 된다.
         List<ArticleDTO> articleList = pageArticle.getContent().stream().map(tuple -> {
-            Article article = tuple.get(0, Article.class);
+            Article article = tuple.get(0, Article.class); //entity에 있는 값을 받아오는 Article.class / Article 타입으로 알아서 Article에 해당 하는 값을 가져온다는 의미 / class -> .앞에 있는 해당 타입으로 값을 받아온다는 의미
             String nick = tuple.get(1, String.class);
             article.setNick(nick);
 
