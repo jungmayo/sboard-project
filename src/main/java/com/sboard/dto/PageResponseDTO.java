@@ -1,0 +1,41 @@
+package com.sboard.dto;
+
+import com.sboard.entity.Article;
+import lombok.*;
+
+import java.util.List;
+
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+public class PageResponseDTO {
+
+    private List<ArticleDTO> dtoList;
+    private String cate;
+    private int pg;
+    private int size;
+    private int total;
+    private int startNo;
+    private int start, end;
+    private boolean prev, next;
+
+    @Builder
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<ArticleDTO> dtoList, int total){
+        this.cate = pageRequestDTO.getCate();
+        this.pg = pageRequestDTO.getPg();
+        this.size = pageRequestDTO.getSize();
+        this.total = total;
+        this.dtoList = dtoList;
+
+        this.startNo = total - ((pg - 1) * size); //글 번호
+        this.end = (int) (Math.ceil(this.pg / 10.0)) * 10;
+        this.start = this.end - 9;
+
+        int last = (int) (Math.ceil(total / (double)size));
+        this.end = end > last ? last : end;
+        this.prev = this.start > 1; // 1보다 크면 true
+        this.next = total > this.end * this.size;
+    }
+}
