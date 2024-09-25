@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -38,6 +39,16 @@ public class ArticleService {
     }
 
     public ArticleDTO selectArticle(int no){
+        Optional<Article> optArticle = articleRepository.findById(no);
+
+        if(optArticle.isPresent()){
+            Article article = optArticle.get();
+            log.info(article);
+
+            ArticleDTO articleDTO = modelMapper.map(article, ArticleDTO.class);
+            return articleDTO;
+        }
+
         return null;
     }
 

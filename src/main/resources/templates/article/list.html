@@ -42,7 +42,7 @@
                     </tr>
                     <tr th:each="article, i:${pageResponseDTO.getDtoList()}"> <!-- 반복할때 원소와 인덱스 번호-->
                         <td>[[${pageResponseDTO.startNo - i.index}]]</td>
-                        <td><a th:href="@{/article/view}">[[${article.title}]]&#91;[[${article.comment}]]&#93;</a></td>
+                        <td><a th:href="@{/article/view(no=${article.no})}">[[${article.title}]]&#91;[[${article.comment}]]&#93;</a></td>
                         <td>[[${article.nick}]]</td>
                         <td>[[${article.rdate}]]</td>
                         <td>[[${article.hit}]]</td>

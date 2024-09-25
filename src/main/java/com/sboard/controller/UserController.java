@@ -29,6 +29,8 @@ public class UserController {
     public String register(){
         return "/user/register";
     }
+
+
     @PostMapping("/user/register")
     public String register(UserDTO userDTO){
         userService.insertUser(userDTO);

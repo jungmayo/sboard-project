@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,6 +39,12 @@ public class Article {
     @Transient // entity의 속성에서 제외시키는 어노테이션 , nick이라는 컬럼 생성을 안함
     private String nick;
 
+    // join(dsl) 대신 관계설정
+    @OneToMany(mappedBy = "ano") // mappedBY는 매핑되는 엔티티(테이블)의 FK(외래키) 컬럼 // 현재는 Article로 조회할 예정이므로 FileEntitiy에는 아직 관계 설정할 필요가 없음
+    private List<FileEntity> filelist;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> commentList;
     /*
     DTO 변환 메서드 대신 ModelMapper 사용
 

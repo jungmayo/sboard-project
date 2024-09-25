@@ -8,13 +8,24 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Log4j2
@@ -72,7 +83,40 @@ public class FileService {
         return uploadedFiles;
     }
 
-    public void downloadFile(){
+    public ResponseEntity<Resource> downloadFile(int fno) { // 파일 다운로드 해주는 메서드
+
+        Optional<FileEntity> optFile = fileRepository.findById(fno);
+        FileEntity fileEntity = null;
+        if(optFile.isPresent()){
+            fileEntity = optFile.get();
+
+        }
+        //파일 다운로드 카운트 + 1
+        int count = fileEntity.getDownload();
+        fileEntity.setDownload(count+1);
+
+        fileRepository.save(fileEntity);
+
+        try {
+            Path path = Paths.get(uploadPath + fileEntity.getSName());
+            String contentType = Files.probeContentType(path); // 문자열 정보를 구함
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentDisposition(
+                    ContentDisposition.builder("attachment")
+                            .filename(fileEntity.getOName(), StandardCharsets.UTF_8).build()); //attachment를 가지고 브라우저가 다운
+
+            headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+            Resource resource = new InputStreamResource(Files.newInputStream(path));
+
+            return ResponseEntity.ok().headers(headers).body(resource); // 실제 파일
+
+        } catch (IOException e) {
+
+            return ResponseEntity.notFound().build();//파일이 없는경우
+
+        }
+
 
     }
     // 데이터베이스에 파일 저장

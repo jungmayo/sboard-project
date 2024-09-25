@@ -13,7 +13,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class ArticleController {
     public String list(Model model, PageRequestDTO pageRequestDTO) {
 
         PageResponseDTO pageResponseDTO = articleService.selectArticleAll(pageRequestDTO);
+
         model.addAttribute(pageResponseDTO);
 
         return "/article/list";
@@ -65,7 +68,11 @@ public class ArticleController {
 
 
     @GetMapping("/article/view")
-    public String view(){
+    public String view(int no, Model model){
+        ArticleDTO articleDTO = articleService.selectArticle(no);
+
+        log.info(articleDTO);
+        model.addAttribute("article", articleDTO);
         return "/article/view";
     }
 
@@ -74,3 +81,4 @@ public class ArticleController {
         return "/article/modify";
     }
 }
+
